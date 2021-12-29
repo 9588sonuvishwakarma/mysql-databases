@@ -1,0 +1,73 @@
+from tkinter import*
+import mysql.connector
+from tkinter import ttk
+root = Tk()
+def add():
+    myu=mysql.connector.connect(host="localhost",user="root",password="",database="")
+    cur=myu.cursor()
+    s="INSERT INTO HOSPITAL (name,phone,emailid) VALUES(%s,%s,%s)"
+    b1=(names.get(),phones.get(),emailids.get())
+    cur.execute(s,b1)
+    myu.commit()
+def show():
+    myu=mysql.connector.connect(host="localhost",user="root",password="",database="")
+    cur=myu.cursor()
+    s="SELECT *from hospital"
+    cur.execute(s)
+    res =cur.fetchall()
+    for i in res:
+        tree.insert("",END,values=i)
+    myu.commit()
+    
+    
+root.geometry("423x400")
+l1=Label(root,text="REGISTRATION FORM",font=("roman new time",20,"bold"),fg="red",bg="green")
+l1.grid(row=0,column=0)
+
+
+names=StringVar()
+phones=StringVar()
+emailids=StringVar()
+
+l11=Label(root,text="name",fg="green")
+l11.grid(row=1,column=0)
+e1=Entry(root,textvariable=names,width=15)
+e1.grid(row=1,column=1)
+
+
+l11=Label(root,text="phone",fg="green")
+l11.grid(row=2,column=0)
+
+e1=Entry(root,textvariable=phones,width=15)
+e1.grid(row=2,column=1)
+
+         
+l11=Label(root,text="emailid",fg="green")
+l11.grid(row=3,column=0)
+
+e1=Entry(root,textvariable=emailids,width=15)
+e1.grid(row=3,column=1)
+
+b1=Button(root,text="add",fg="red",command=add)
+b1.grid(row=4,column=1)
+
+col=('name','phone','emailid')
+tree=ttk.Treeview(root,height=5,show='headings',column=col)
+tree.column('name',width=100,anchor=CENTER)
+tree.column('phone',width=100,anchor=CENTER)
+tree.column('emailid',width=100,anchor=CENTER)
+
+tree.heading('name',text="NAME")
+tree.heading('phone',text="PHONE")
+tree.heading('emailid',text="EMAILID")
+tree.grid(row=5,column=0)
+
+
+b1=Button(root,text="show",fg="red",command=show)
+b1.grid(row=4,column=0)
+
+
+
+
+
+root.mainloop()
